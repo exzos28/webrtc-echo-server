@@ -9,7 +9,7 @@ export class Server {
   private io: SocketIOServer;
   private activeSockets: string[] = [];
 
-  private readonly DEFAULT_PORT = 5000;
+  private readonly DEFAULT_PORT = process.env.PORT || "5000";
 
   constructor() {
     this.initialize();
@@ -76,7 +76,7 @@ export class Server {
     });
   }
 
-  public listen(callback: (port: number) => void): void {
+  public listen(callback: (port: string) => void): void {
     this.httpServer.listen(this.DEFAULT_PORT, () =>
       callback(this.DEFAULT_PORT)
     );
