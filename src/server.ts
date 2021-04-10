@@ -1,7 +1,13 @@
 import express, { Application } from "express";
 import socketIO, { Server as SocketIOServer } from "socket.io";
 import { createServer, Server as HTTPServer } from "http";
+import https from "https";
 import path from "path";
+import fs from "fs";
+const options = {
+  key: fs.readFileSync(__dirname + "/../localhost-key.pem"),
+  cert: fs.readFileSync(__dirname + "/../localhost.pem"),
+};
 
 export class Server {
   private httpServer: HTTPServer;
@@ -21,7 +27,7 @@ export class Server {
 
   private initialize(): void {
     this.app = express();
-    this.httpServer = createServer(this.app);
+    this.httpServer = https.createServer(options, this.app);
     this.io = socketIO(this.httpServer);
   }
 
