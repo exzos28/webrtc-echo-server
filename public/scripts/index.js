@@ -1,4 +1,4 @@
-const socket = io.connect("localhost:5000");
+const socket = io.connect("/");
 const peerConnection = new RTCPeerConnection();
 let isAlreadyCalling = false;
 
@@ -102,3 +102,4 @@ async function callUser(socketId) {
     to: socketId,
   });
 }
+
