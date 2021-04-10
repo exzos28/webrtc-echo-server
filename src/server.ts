@@ -5,7 +5,7 @@ import https from "https";
 import path from "path";
 import fs from "fs";
 const options =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV !== "production"
     ? {
         key: fs.readFileSync(__dirname + "/../localhost-key.pem"),
         cert: fs.readFileSync(__dirname + "/../localhost.pem"),
