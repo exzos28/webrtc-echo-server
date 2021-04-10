@@ -4,10 +4,13 @@ import { createServer, Server as HTTPServer } from "http";
 import https from "https";
 import path from "path";
 import fs from "fs";
-const options = {
-  key: fs.readFileSync(__dirname + "/../localhost-key.pem"),
-  cert: fs.readFileSync(__dirname + "/../localhost.pem"),
-};
+const options =
+  process.env.NODE_ENV === "production"
+    ? {
+        key: fs.readFileSync(__dirname + "/../localhost-key.pem"),
+        cert: fs.readFileSync(__dirname + "/../localhost.pem"),
+      }
+    : undefined;
 
 export class Server {
   private httpServer: HTTPServer;
@@ -27,7 +30,11 @@ export class Server {
 
   private initialize(): void {
     this.app = express();
-    this.httpServer = https.createServer(options, this.app);
+    if (process.env.NODE_ENV === "production" || options === undefined) {
+      this.httpServer = https.createServer(this.app);
+    } else {
+      this.httpServer = https.createServer(options, this.app);
+    }
     this.io = socketIO(this.httpServer);
   }
 
