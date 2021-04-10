@@ -1,1 +1,1 @@
-web:ts-node/src/config/server.ts
+web:ts-node/src/index.ts
